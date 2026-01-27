@@ -1,11 +1,13 @@
 #include <iostream>
-
+#include <fstream>
 int main ()
 {
 
     int optiune;
+    int number;
     std::string name;
-    std::string nationalitate;
+    std::string country;
+    std::string pozitie;
     do
     {
         std::cout << "******SCOUTING SYSTEM MENU******" << std::endl;
@@ -22,13 +24,45 @@ int main ()
             std::cout << "Introduceti numele jucatorului : ";
             std::cin.ignore();
             std::getline(std::cin, name);
-            std::cout << "Introduceti nationalitatea : ";
-            std::getline(std::cin, nationalitate);
+            std::cout << "Introduceti tara : ";
+            std::getline(std::cin, country);
+            std::cout << "Introduceti # : ";
+            std::cin >> number;
+            std::cout << "Introduceti pozitia (portar, aparator, mijlocas, atacant) : ";
+            std::cin.ignore();
+            std::getline(std::cin, pozitie);
+            {
+                std::ofstream file ("jucatori.txt", std::ios::app);
+                if(file.is_open())
+                {
+                    file << "#" << number << " " << name << " ; " << country << " ; " << pozitie << std::endl;
+                    file.close();
+                    std::cout << "Jucator salvat cu succes!" << std::endl;
+                }
+                else
+                {
+                    std::cout << "Eroare la deschiderea fisierului!" << std::endl;
+                }
+            }
             break;
-        case 2:
-            std::cout << "Nume : " << name << std::endl;
-            std::cout << "Nationalitate : " << nationalitate << std::endl;
+        case 2:{
+            std::ifstream file ("jucatori.txt");
+            if(file.is_open())
+            {
+                std::string linie;
+                std::cout << "Jucatori:\n";
+                while(std::getline(file,linie))
+                {
+                    std::cout << linie <<std::endl;
+                }
+                file.close();
+            }
+            else
+            {
+                std::cout << "Nu s-au gasit jucatori in fisier!" <<std::endl;
+            }
             break;
+        }
         case 3:
             std::cout << "Aceasta idee este in curs de implementare." << std::endl;
             break;
