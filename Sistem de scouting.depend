@@ -1,4 +1,5 @@
 # depslib dependency file v1.0
-1769437734 source:d:\new folder (2)\sistem de scouting\main.cpp
+1769577980 source:d:\new folder (2)\sistem de scouting\main.cpp
 	<iostream>
+	<fstream>
 

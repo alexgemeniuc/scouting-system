@@ -4,7 +4,7 @@ int main ()
 {
 
     int optiune;
-    int number;
+    int number, age;
     std::string name;
     std::string country;
     std::string pozitie;
@@ -21,31 +21,87 @@ int main ()
         switch(optiune)
         {
         case 1:
+        {
             std::cout << "Introduceti numele jucatorului : ";
             std::cin.ignore();
             std::getline(std::cin, name);
+
+            std::cout << "Introducetii varsta jucatorului : ";
+            std::cin >> age;
+
             std::cout << "Introduceti tara : ";
+            std::cin.ignore();
             std::getline(std::cin, country);
+
             std::cout << "Introduceti # : ";
             std::cin >> number;
+
             std::cout << "Introduceti pozitia (portar, aparator, mijlocas, atacant) : ";
             std::cin.ignore();
             std::getline(std::cin, pozitie);
+
+            try
             {
-                std::ofstream file ("jucatori.txt", std::ios::app);
-                if(file.is_open())
+                std::cout << "Introduceti numele jucatorului : ";
+                std::cin.ignore();
+                std::getline(std::cin, name);
+                if(name.length() < 3)
+                    throw std::runtime_error("Numele trebuie sa aiba minim 3 caractere!");
+
+                std::cout << "Introducetii varsta jucatorului : ";
+                std::cin >> age;
+                if(std::cin.fail())
                 {
-                    file << "#" << number << " " << name << " ; " << country << " ; " << pozitie << std::endl;
-                    file.close();
-                    std::cout << "Jucator salvat cu succes!" << std::endl;
+                    std::cin.clear();
+                    std::cin.ignore(1000, '\n');
+                    throw std::runtime_error("Varsta trebuie sa fie un numar!");
                 }
-                else
+                if(age < 15)
+                    throw std::runtime_error("Jucatorul este prea tanar pentru a juca!");
+                if(age > 60)
+                    throw std::runtime_error("Jucatorul este prea in varsta pentru a juca!");
+
+                std::cout << "Introduceti tara : ";
+                std::cin.ignore();
+                std::getline(std::cin, country);
+                if(country.length() < 3)
+                    throw std::runtime_error("Tara trebuie sa aiba minim 3 caractere!");
+
+                std::cout << "Introduceti # : ";
+                std::cin >> number;
+                if(std::cin.fail())
                 {
-                    std::cout << "Eroare la deschiderea fisierului!" << std::endl;
+                    std::cin.clear();
+                    std::cin.ignore(1000, '\n');
+                    throw std::runtime_error("Numarul de pe tricou trebuie sa fie un numar!");
                 }
+                if(number < 1 || number > 99)
+                    throw std::runtime_error("Numarul de pe tricou trebuie sa fie intre 1 si 99!");
+
+                std::cout << "Introduceti pozitia (portar, aparator, mijlocas, atacant) : ";
+                std::cin.ignore();
+                std::getline(std::cin, pozitie);
+                if(pozitie != "portar" && pozitie != "aparator" && pozitie != "mijlocas" && pozitie != "atacant")
+                    throw std::runtime_error("Pozitia introdusa nu este corecta!");
+
+                // Scriere in fisier doar daca totul e valid
+                std::ofstream file("jucatori.txt", std::ios::app);
+                if(!file) throw std::runtime_error("Eroare la deschiderea fisierului!");
+                file << "#" << number << " " << name << " , " << age << " , " << country << " , " << pozitie << std::endl;
+                file.close();
+
+                std::cout << "Jucator salvat cu succes!" << std::endl;
             }
+            catch(const std::exception& e)
+            {
+                std::cout << "Eroare: " << e.what() << std::endl;
+            }
+
             break;
-        case 2:{
+        }
+
+        case 2:
+        {
             std::ifstream file ("jucatori.txt");
             if(file.is_open())
             {

@@ -1,3 +1,5 @@
 #7 Lamine Yamal ; Spania ; atacant
 #7 Cristiano Ronaldo ; Portugalia ; atacant
 #10 Lionel Messi ; Argentina ; atacant
+#46 Raul Rusescu , 34 , Romania , atacant
+#23 Joshua Kimmich , 28 , Germania , mijlocas
